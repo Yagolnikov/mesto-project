@@ -1,0 +1,11 @@
+.element {
+  margin: 0;
+  max-width: 282px;
+  min-height: 361px;
+  color:#000;
+  border-radius: 10px;
+  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+}
