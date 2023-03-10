@@ -1,9 +1,9 @@
-const openPopup = (profilePopup) => {
-  profilePopup.classList.add('popup_opened');
+const openPopup = (popup) => {
+  popup.classList.add('popup_opened');
 };
 
-const closePopup = (profilePopup) => {
-  profilePopup.classList.remove('popup_opened');
+const closePopup = (popup) => {
+  popup.classList.remove('popup_opened');
 };
 
 const profilePopup = document.querySelector('.popup');
@@ -80,10 +80,11 @@ function addCard(link, title) {
   cardsArea.prepend(createCard(link, title));
 }
 
+const popupZoom = document.querySelector('.popup__open-content');
+const imageZoom = popupZoom.querySelector('.popup__image-post');
+const captureZoom = popupZoom.querySelector('.popup__capture-post');
+
 function openZoom(link, title) {
-  const popupZoom = document.querySelector('.popup__open-content');
-  const imageZoom = popupZoom.querySelector('.popup__image-post');
-  const captureZoom = popupZoom.querySelector('.popup__capture-post');
   openPopup(popupZoom);
   imageZoom.src = link;
   imageZoom.alt = title;
@@ -93,32 +94,32 @@ function openZoom(link, title) {
 
 const cards = [
   {
-    title: 'Спас на крови',
+    name: 'Спас на крови',
     link: 'https://images.unsplash.com/photo-1554202218-20ee1af0fb17?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
   },
   {
-    title: 'Матрёшки',
+    name: 'Матрёшки',
     link: 'https://images.unsplash.com/photo-1526578410734-17a617547636?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
   },
   {
-    title: 'Байкал',
+    name: 'Байкал',
     link: 'https://images.unsplash.com/photo-1552588355-23e1b81409cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=689&q=80'
   },
   {
-    title: 'Питер',
+    name: 'Питер',
     link: 'https://images.unsplash.com/photo-1555460285-763ba96917d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
   },
   {
-    title: 'Московское метро',
+    name: 'Московское метро',
     link: 'https://images.unsplash.com/photo-1551025578-9d65f4307723?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
   },
   {
-    title: 'Москва-сити',
+    name: 'Москва-сити',
     link: 'https://images.unsplash.com/photo-1541447271487-09612b3f49f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
   }
 ];
 
 for (let i = 0; i < cards.length; i++) {
-  const card = createCard(cards[i].link, cards[i].title);
+  const card = createCard(cards[i].link, cards[i].name);
   cardsArea.appendChild(card);
 }
