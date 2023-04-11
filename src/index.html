@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ягольников Олег">
+  <meta name="keywords" content="блог, Россия">
+  <title>Mesto Russia</title>
+</head>
+
+<body class="page">
+  <header class="header">
+    <img src="<%=require('./images/logo.svg')%>" class="header__logo" alt="Логотип Место">
+  </header>
+  <main>
+    <section class="profile">
+      <div class = "profile__overlay">
+      <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Жак Кусто">
+      </div>
+      <div class="profile__info">
+        <div class="profile__name-edit">
+          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <button class="profile__edit-button" type="button"></button>
+        </div>
+        <p class="profile__subtitle">Исследователь океана</p>
+      </div>
+      <button class="profile__add-button" type="button"></button>
+      </section>
+      <section class="cards-area">
+        </section>
+  </main>
+  <footer class="footer">
+    <p class="footer__copyright">&#xa9; 2023 Mesto Russia</p>
+  </footer>
+  <section class="popup popup__profile">
+    <div class="popup__container">
+      <button 
+      class="popup__close" 
+      type="button" 
+      aria-label="Закрыть"
+      ></button>
+      <form class="form" name="edit-profile" novalidate>
+        <h2 class="form__title">Редактировать профиль</h2>
+        <input 
+        id="name" 
+        type="text"
+        class="form__item form__item_heading" 
+        name="username" 
+        value = ""
+        placeholder="Назовите себя" 
+        required 
+        minlength="2" 
+        maxlength="40" 
+        pattern="^[a-zA-Zа-яёА-ЯЁ\s-]+$"
+        data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+        <span class="form__input-error career-error"></span>
+        <input 
+        id="career" 
+        type="text" 
+        class="form__item form__item_career" 
+        name="career" 
+        value = ""
+        placeholder="Профессия" 
+        required minlength="2"
+         maxlength="200" 
+         pattern="^[a-zA-Zа-яёА-ЯЁ\s-]+$"
+         data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+        <span class="form__input-error career-error"></span>
+        <button class="form__button" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="popup popup__open-content">
+    <div class="popup__container">
+      <figure class = "popup__open-post">
+        <button class="popup__close" type="button" aria-label="Закрыть"></button>
+        <img class = "popup__image-post" src = "" alt = "">
+        <figcapture class = "popup__capture-post"></figcapture>
+      </figure>
+    </div>
+  </section>
+
+  <section class="popup popup__add_content">
+    <div class="popup__container">
+      <button class="popup__close" type="button" aria-label="Закрыть"></button>
+      <form class="form" name="add-content" novalidate>
+        <h2 class="form__title">Новое место</h2>
+          <input 
+          id = "new-card" 
+          type="text" 
+          class="form__item form__item_career" 
+          name="new-card" 
+          placeholder="Название" 
+          required minlength="2" 
+          maxlength="32" 
+          pattern="[a-zA-Zа-яА-Я\s]+" 
+          data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+          <span class="form__input-error new-card-error"></span>
+          <input 
+          id = "new-url" 
+          type="url" 
+          class="form__item form__item_career" 
+          name="career" 
+          placeholder="Ссылка на картинку" 
+          required 
+          data-error-message="Введите ссылку на изображение">
+          <span class="form__input-error new-url-error"></span>
+        <button class="form__button form__button_add_content" type="submit">Создать</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="popup popup__edit_avatar">
+    <div class="popup__container">
+      <button class="popup__close" type="button" aria-label="Закрыть"></button>
+      <form class="form" name="edit-avatar" novalidate>
+        <h2 class="form__title">Обновить аватар</h2>
+       <input
+        id="new-avatar" 
+        type="url"
+        class="form__item form__item_heading" 
+        name="avatar" 
+        placeholder="Ссылка на картинку" 
+        required 
+        minlength="2" 
+        maxlength="200" 
+        data-error-message="Введите ссылку на картинку">
+        <span class="form__input-error avatar-error"></span>
+        <button class="form__button form__button_edit_avatar" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </section>
+
+<template id ="template-card-content">
+  <figure class="element">
+    <img src="#" class="element__image" alt="">
+    <button class="element__delete" type="button"></button>
+    <div class="element__container">
+      <h2 class="element__title"></h2>
+      <button class="element__like" type="button"></button>
+    </div>
+  </figure>
+</template>
+
+</body>
+
+</html>
