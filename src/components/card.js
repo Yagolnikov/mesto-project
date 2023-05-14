@@ -1,4 +1,4 @@
-import {openPopup, resetForm, closePopup, keyHandler, handlePopupClick} from './utils.js';
+import {openPopup} from './utils.js';
 
 function createCard(link, title) {
   const card = cardTemplate.querySelector('.element').cloneNode(true);

@@ -1,4 +1,4 @@
-import {showInputError, hideInputError, isValid, setEventListeners, hasInvalidInput, toggleButtonState, enableValidation} from './validation.js';
+import {hideInputError, toggleButtonState, validationFormConfig} from './validation.js';
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
@@ -6,11 +6,11 @@ const openPopup = (popup) => {
 const resetForm = (formElement) => {
   if (!formElement) return;
   formElement.reset();
-  const inputList = Array.from(formElement.querySelectorAll(".form__item"));
-  const buttonElement = formElement.querySelector(".form__button");
+  const inputList = Array.from(formElement.querySelectorAll('.form__item'));
+  const buttonElement = formElement.querySelector('.form__button');
   toggleButtonState(inputList, buttonElement);
   inputList.forEach((inputElement) => {
-    hideInputError(inputElement, inputElement.nextElementSibling);
+    hideInputError(inputElement, inputElement.nextElementSibling, validationFormConfig);
   });
 };
 
@@ -19,8 +19,9 @@ const closePopup = (popupElement) => {
   resetForm(popupElement.querySelector('.form'));
 };
 function keyHandler(evt) {
-  if (evt.key === 'Escape') {
-    closePopup(document.querySelector('.popup_opened'));   
+  const popupElement = document.querySelector('.popup_opened');
+  if (evt.key === 'Escape' && popupElement) {
+    closePopup(popupElement);   
   }
 }
 
@@ -29,7 +30,5 @@ function handlePopupClick(evt) {
     closePopup(evt.target);
   }
 }
-
-
 
   export {openPopup, resetForm, closePopup, keyHandler, handlePopupClick}; 

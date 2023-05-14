@@ -1,4 +1,4 @@
-import {openPopup, resetForm, closePopup, keyHandler, handlePopupClick} from './utils.js';
+import {closePopup} from './utils.js';
 import {addCard} from './index.js';
 
 

@@ -1,16 +1,15 @@
-import {showInputError, hideInputError, isValid, setEventListeners, hasInvalidInput, toggleButtonState, enableValidation} from './validation.js';
-import {openPopup, resetForm, closePopup, keyHandler, handlePopupClick} from './utils.js';
-import {profileAvatar, avatarPopup, avatarButton, avatarSubmitButton, inputAvatar, popupProfile, profilePopup, inputName, inputCareer, profileSubmitButton, profileName, profileCareer, profileButton, popupAddContent, buttonForAddContent, inputFotoTitle, inputNewFoto, buttonForSubmitContent} from './modal.js'
-import {cardTemplate, createCard, popupZoom, imageZoom, captureZoom, openZoom, cards, cardsArea} from './card.js';
+import {openPopup, closePopup, keyHandler, handlePopupClick} from './utils.js';
+import {avatarPopup, avatarButton, popupProfile, inputName, inputCareer, profileName, profileCareer, profileButton, popupAddContent, buttonForAddContent} from './modal.js'
+import {createCard, cards, cardsArea} from './card.js';
 import '../pages/index.css'; 
 
 profileButton.addEventListener('click', function() {
   openPopup(popupProfile);
-
+  inputCareer.value = profileCareer.textContent;
+inputName.value = profileName.textContent;
 });
 
-inputCareer.value = profileCareer.textContent;
-inputName.value = profileName.textContent;
+
 
 buttonForAddContent.addEventListener(`click`, function(){
   openPopup(popupAddContent);
