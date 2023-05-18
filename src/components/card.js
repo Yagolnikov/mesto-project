@@ -15,12 +15,15 @@ function createCard(link, title) {
   buttonForDelete.addEventListener('click', function() {
     buttonForDelete.closest('.element').remove();
   });
-  const buttonForZoom = card.querySelector('.element__image');
+
+  const buttonForZoom = cardImage; 
   buttonForZoom.addEventListener('click', function() {
     openZoom(link, title);
   });
+
   return card;
 }
+
 
 const cardTemplate = document.querySelector('#template-card-content').content;
 

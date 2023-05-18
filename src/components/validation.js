@@ -36,7 +36,6 @@ const setEventListeners = (formElement, config) => {
       toggleButtonState(inputList, buttonElement, inactiveButtonClass);
     });
   });
-  toggleButtonState(inputList, buttonElement, inactiveButtonClass);
 };
 
 const hasInvalidInput = (inputList) => {

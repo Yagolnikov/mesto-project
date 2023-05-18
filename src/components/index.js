@@ -1,4 +1,4 @@
-import {openPopup, closePopup, keyHandler, handlePopupClick} from './utils.js';
+import {openPopup, closePopup} from './utils.js';
 import {avatarPopup, avatarButton, popupProfile, inputName, inputCareer, profileName, profileCareer, profileButton, popupAddContent, buttonForAddContent} from './modal.js'
 import {createCard, cards, cardsArea} from './card.js';
 import '../pages/index.css'; 
@@ -8,8 +8,6 @@ profileButton.addEventListener('click', function() {
   inputCareer.value = profileCareer.textContent;
 inputName.value = profileName.textContent;
 });
-
-
 
 buttonForAddContent.addEventListener(`click`, function(){
   openPopup(popupAddContent);
@@ -23,14 +21,6 @@ for (let i = 0; i < cards.length; i++) {
 export function addCard(link, title) {
   cardsArea.prepend(createCard(link, title));
 }
-
-for (let i = 0; i < cards.length; i++) {
-  const card = createCard(cards[i].link, cards[i].name);
-  cardsArea.appendChild(card);
-}
-
-  document.addEventListener('click', handlePopupClick);
-  document.addEventListener('keydown', keyHandler);
 
   document.querySelectorAll('.popup__close').forEach(button => {
     const buttonsPopup = button.closest('.popup'); 
