@@ -22,7 +22,6 @@ const closePopup = (popupElement) => {
   document.removeEventListener('keydown', handleKeyEvent);
 };
 function handleKeyEvent(evt) {
-  const popupElement = document.querySelector('.popup_opened');
   if (evt.key === "Escape") {
     const popupElement = document.querySelector(".popup_opened");
     if (popupElement) {
