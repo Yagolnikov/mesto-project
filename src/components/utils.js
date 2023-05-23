@@ -28,7 +28,6 @@ function handleKeyEvent(evt) {
       closePopup(popupElement);
     }
   }
-  
 }
 
 function handlePopupClick(evt) {

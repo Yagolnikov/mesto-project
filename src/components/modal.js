@@ -1,5 +1,6 @@
 import { closePopup } from './utils.js';
 import { addCard } from './index.js';
+import { addNewAvatar, updateProfileContent } from './api.js';
 
 const popupProfile = document.querySelector('.popup__profile');
 const profilePopup = document.querySelector('.popup');
@@ -27,10 +28,19 @@ const inputAvatar = document.querySelector('#new-avatar');
 
 profileForm.addEventListener('submit', function (event) {
   event.preventDefault();
+  const name = inputName.value;
+  const about = inputCareer.value;
+
   if (profileForm.checkValidity()) {
-    profileCareer.textContent = inputCareer.value;
-    profileName.textContent = inputName.value;
-    closePopup(profilePopup);
+    profileSubmitButton.textContent = 'Сохранение...';
+    setTimeout(() => {
+      updateProfileContent(name, about).then(() => {
+        profileCareer.textContent = about;
+        profileName.textContent = name;
+        closePopup(profilePopup);
+        profileSubmitButton.textContent = 'Сохранить';
+      });
+    }, 1000);
   }
 });
 
@@ -39,23 +49,50 @@ popupAddContent.addEventListener('submit', function (event) {
   const titleValue = inputFotoTitle.value.trim();
   const photoValue = inputNewFoto.value.trim();
   const isFormValid = titleValue !== '' && photoValue !== '';
+
   if (isFormValid) {
-    addCard(titleValue, photoValue);
-    inputNewFoto.value = '';
-    inputFotoTitle.value = '';
-    closePopup(popupAddContent);
+    buttonForSubmitContent.textContent = 'Сохранение...';
+    setTimeout(() => {
+      addCard(titleValue, photoValue);
+      inputNewFoto.value = '';
+      inputFotoTitle.value = '';
+      closePopup(popupAddContent);
+      buttonForSubmitContent.textContent = 'Сохранить';
+    }, 1000);
   } else {
     buttonForSubmitContent.classList.add('disabled');
     buttonForSubmitContent.disabled = true;
   }
+  buttonForSubmitContent.classList.remove('disabled');
+  buttonForSubmitContent.disabled = false;
 });
 
-avatarPopup.addEventListener('submit', function (event) {
+
+
+const handleAvatarFormSubmit = (event) => {
   event.preventDefault();
-  profileAvatar.src = inputAvatar.value;
-  closePopup(avatarPopup);
-});
+  const avatar = inputAvatar.value;
+  avatarSubmitButton.textContent = 'Сохранение...';
+  setTimeout(() => {
+    addNewAvatar(avatar)
+      .then((res) => {
+        profileAvatar.src = res.avatar;
+        closePopup(avatarPopup);
+        event.target.reset();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    avatarSubmitButton.textContent = 'Сохранить';
+  }, 1000);
+};
+
+
+
+
+avatarPopup.addEventListener('submit', handleAvatarFormSubmit);
+
 
 
 export {
-  profileAvatar, avatarPopup, avatarButton, avatarSubmitButton, inputAvatar, popupProfile, profilePopup, inputName, inputCareer, profileSubmitButton, profileName, profileCareer, profileButton, popupAddContent, buttonForAddContent, inputFotoTitle, inputNewFoto};
+  handleAvatarFormSubmit,profileAvatar, avatarPopup, avatarButton, avatarSubmitButton, inputAvatar, popupProfile, profilePopup, inputName, inputCareer, profileSubmitButton, profileName, profileCareer, profileButton, popupAddContent, buttonForAddContent, inputFotoTitle, inputNewFoto};

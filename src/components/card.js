@@ -1,28 +1,71 @@
-import {openPopup} from './utils.js';
+import { openPopup, getCurrentUserProfile } from './utils.js';
+import { deleteCard, likeCard, unlikeCard } from "./api.js";
 
-function createCard(link, title) {
-  const card = cardTemplate.querySelector('.element').cloneNode(true);
-  const cardImage = card.querySelector('.element__image');
+function createCardElement(card, hasDeleteButton) {
+  const { _id: cardId, link, name, likes } = card;
+  let likesCount = likes.length;
+  const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
+  const cardImage = cardElement.querySelector('.element__image');
   cardImage.src = link;
-  cardImage.alt = title;
-  const cardTitle = card.querySelector('.element__title');
-  cardTitle.textContent = title;
-  const buttonForLike = card.querySelector('.element__like');
-  buttonForLike.addEventListener('click', function(event) {
-    event.target.classList.toggle('element__like_active');
+  cardImage.alt = name;
+  const cardTitle = cardElement.querySelector('.element__title');
+  cardTitle.textContent = name;
+  const buttonForLike = cardElement.querySelector('.element__like');
+  const likeCounter = cardElement.querySelector('.element__counter');
+  
+  buttonForLike.addEventListener('click', function (event) {
+    const cardId = card._id;
+  
+    if (event.target.classList.contains('element__like_active')) {
+      unlikeCard(cardId)
+        .then((updatedCard) => {
+          event.target.classList.remove('element__like_active');
+          likesCount = updatedCard.likes.length; 
+          likeCounter.textContent = likesCount; 
+        })
+        .catch((error) => {
+          console.log('Ошибка при снятии лайка:', error);
+        });
+    } else {
+      likeCard(cardId)
+        .then((updatedCard) => {
+          event.target.classList.add('element__like_active');
+          likesCount = updatedCard.likes.length; 
+          likeCounter.textContent = likesCount; 
+        })
+        .catch((error) => {
+          console.log('Ошибка при постановке лайка:', error);
+        });
+    }
   });
-  const buttonForDelete = card.querySelector('.element__delete');
-  buttonForDelete.addEventListener('click', function() {
-    buttonForDelete.closest('.element').remove();
+  
+  const buttonForDelete = cardElement.querySelector('.element__delete');
+  buttonForDelete.setAttribute('data-card-id', cardId);
+  if (hasDeleteButton) {
+    buttonForDelete.addEventListener('click', function () {
+      const cardId = buttonForDelete.getAttribute('data-card-id');
+      deleteCard(cardId)
+        .then(() => {
+          cardElement.remove();
+        })
+        .catch((error) => {
+          console.log('Ошибка при удалении карточки:', error);
+        });
+    });
+  } else {
+    buttonForDelete.style.display = 'none';
+  }
+
+  const buttonForZoom = cardImage;
+  buttonForZoom.addEventListener('click', function () {
+    openZoom(link, name); 
   });
 
-  const buttonForZoom = cardImage; 
-  buttonForZoom.addEventListener('click', function() {
-    openZoom(link, title);
-  });
+  likeCounter.textContent = likesCount; 
 
-  return card;
+  return cardElement;
 }
+
 
 
 const cardTemplate = document.querySelector('#template-card-content').content;
@@ -38,33 +81,14 @@ function openZoom(link, title) {
   captureZoom.textContent = title;
 }
 
-const cards = [
-  {
-    name: 'Спас на крови',
-    link: 'https://images.unsplash.com/photo-1554202218-20ee1af0fb17?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-  },
-  {
-    name: 'Матрёшки',
-    link: 'https://images.unsplash.com/photo-1526578410734-17a617547636?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://images.unsplash.com/photo-1552588355-23e1b81409cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=689&q=80'
-  },
-  {
-    name: 'Питер',
-    link: 'https://images.unsplash.com/photo-1555460285-763ba96917d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-  },
-  {
-    name: 'Московское метро',
-    link: 'https://images.unsplash.com/photo-1551025578-9d65f4307723?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-  },
-  {
-    name: 'Москва-сити',
-    link: 'https://images.unsplash.com/photo-1541447271487-09612b3f49f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-  }
-];
-const cardsArea = document.querySelector('.cards-area');  
+const cardsArea = document.querySelector('.cards-area');
 
-
-export {createCard, popupZoom, imageZoom, captureZoom, openZoom, cards, cardsArea, cardTemplate};
+export {
+  createCardElement,
+  popupZoom,
+  imageZoom,
+  captureZoom,
+  openZoom,
+  cardsArea,
+  cardTemplate
+};
