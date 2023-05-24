@@ -1,4 +1,4 @@
-import { openPopup, getCurrentUserProfile } from './utils.js';
+import { openPopup } from './utils.js';
 import { deleteCard, likeCard, unlikeCard } from "./api.js";
 
 function createCardElement(card, hasDeleteButton) {
@@ -12,16 +12,14 @@ function createCardElement(card, hasDeleteButton) {
   cardTitle.textContent = name;
   const buttonForLike = cardElement.querySelector('.element__like');
   const likeCounter = cardElement.querySelector('.element__counter');
-  
+
   buttonForLike.addEventListener('click', function (event) {
-    const cardId = card._id;
-  
     if (event.target.classList.contains('element__like_active')) {
       unlikeCard(cardId)
         .then((updatedCard) => {
           event.target.classList.remove('element__like_active');
-          likesCount = updatedCard.likes.length; 
-          likeCounter.textContent = likesCount; 
+          likesCount = updatedCard.likes.length;
+          likeCounter.textContent = likesCount;
         })
         .catch((error) => {
           console.log('Ошибка при снятии лайка:', error);
@@ -30,20 +28,18 @@ function createCardElement(card, hasDeleteButton) {
       likeCard(cardId)
         .then((updatedCard) => {
           event.target.classList.add('element__like_active');
-          likesCount = updatedCard.likes.length; 
-          likeCounter.textContent = likesCount; 
+          likesCount = updatedCard.likes.length;
+          likeCounter.textContent = likesCount;
         })
         .catch((error) => {
           console.log('Ошибка при постановке лайка:', error);
         });
     }
   });
-  
+
   const buttonForDelete = cardElement.querySelector('.element__delete');
-  buttonForDelete.setAttribute('data-card-id', cardId);
   if (hasDeleteButton) {
     buttonForDelete.addEventListener('click', function () {
-      const cardId = buttonForDelete.getAttribute('data-card-id');
       deleteCard(cardId)
         .then(() => {
           cardElement.remove();
@@ -53,23 +49,20 @@ function createCardElement(card, hasDeleteButton) {
         });
     });
   } else {
-    buttonForDelete.style.display = 'none';
+    buttonForDelete.remove();
   }
 
   const buttonForZoom = cardImage;
   buttonForZoom.addEventListener('click', function () {
-    openZoom(link, name); 
+    openZoom(link, name);
   });
 
-  likeCounter.textContent = likesCount; 
+  likeCounter.textContent = likesCount;
 
   return cardElement;
 }
 
-
-
 const cardTemplate = document.querySelector('#template-card-content').content;
-
 const popupZoom = document.querySelector('.popup__open-content');
 const imageZoom = popupZoom.querySelector('.popup__image-post');
 const captureZoom = popupZoom.querySelector('.popup__capture-post');
@@ -92,3 +85,4 @@ export {
   cardsArea,
   cardTemplate
 };
+

@@ -51,6 +51,7 @@ const createNewCard = (cardName, cardLink) => {
   });
 };
 
+
 const deleteCard = (cardId) => {
   return sendRequest(`${APISettings.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
